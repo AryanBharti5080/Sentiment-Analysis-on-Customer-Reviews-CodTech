@@ -5,9 +5,7 @@ import re
 import os
 import time
 
-# --------------------------------------------------
 # PAGE CONFIG
-# --------------------------------------------------
 
 st.set_page_config(
     page_title="SkyPulse · Flight Sentiment Analysis",
@@ -15,9 +13,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# --------------------------------------------------
 # CUSTOM CSS
-# --------------------------------------------------
 
 st.markdown("""
 <style>
@@ -352,9 +348,8 @@ hr { border-color: var(--border) !important; margin: 2rem 0 !important; }
 </style>
 """, unsafe_allow_html=True)
 
-# --------------------------------------------------
 # LOAD MODEL AND VECTORIZER
-# --------------------------------------------------
+
 
 BASE_DIR = os.path.dirname(__file__)
 model_path      = os.path.join(BASE_DIR, "../models/sentiment_model.pkl")
@@ -365,9 +360,8 @@ with open(model_path, "rb") as f:
 with open(vectorizer_path, "rb") as f:
     tfidf = pickle.load(f)
 
-# --------------------------------------------------
 # HELPERS
-# --------------------------------------------------
+
 
 def clean_text(text):
     text = text.lower()
@@ -376,18 +370,16 @@ def clean_text(text):
     text = re.sub(r"\s+", " ", text)
     return text.strip()
 
-# --------------------------------------------------
+
 # SESSION STATE
-# --------------------------------------------------
 
 if "review_text" not in st.session_state:
     st.session_state.review_text = ""
 if "history" not in st.session_state:
     st.session_state.history = []
 
-# --------------------------------------------------
 # SAMPLE REVIEWS
-# --------------------------------------------------
+
 
 SAMPLES = {
     "pos": [
@@ -431,9 +423,8 @@ ACTIONS = {
     ],
 }
 
-# --------------------------------------------------
+
 # SIDEBAR
-# --------------------------------------------------
 
 with st.sidebar:
     st.markdown("""
@@ -476,9 +467,8 @@ with st.sidebar:
             st.session_state.history = []
             st.rerun()
 
-# --------------------------------------------------
+
 # HERO
-# --------------------------------------------------
 
 st.markdown("""
 <div class="hero">
@@ -506,9 +496,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# --------------------------------------------------
 # SAMPLE CARDS
-# --------------------------------------------------
 
 st.markdown('<div class="section-label">✦ &nbsp; Try a Sample Review</div>', unsafe_allow_html=True)
 
@@ -526,9 +514,7 @@ for tab, (cls, label) in zip(tabs, [("pos","Positive"), ("neu","Neutral"), ("neg
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# --------------------------------------------------
 # INPUT + ANALYSIS
-# --------------------------------------------------
 
 st.markdown('<div class="section-label">✦ &nbsp; Enter Your Review</div>', unsafe_allow_html=True)
 
@@ -547,9 +533,8 @@ st.markdown(f'<div class="wc-chip">📝 {word_count} word{"s" if word_count != 1
 st.markdown("<br>", unsafe_allow_html=True)
 analyse = st.button("⚡ Analyse Sentiment", use_container_width=True)
 
-# --------------------------------------------------
+
 # PREDICTION
-# --------------------------------------------------
 
 if analyse:
     if not review.strip():
